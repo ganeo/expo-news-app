@@ -1,19 +1,15 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useReducer } from 'react'
+import AppNavigator from './navigation/AppNavigator'
+import { ClipContext } from './ClipContext'
+import clipReducer from './flux/reducers/ClipReducer'
 
-export default function App() {
+export default App = () => {
+  const [state, dispatch] = useReducer(clipReducer, { clipArticles: [] })
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+    // 子コンポーネントでWebクリップ用のstateとdispatchを共有できるように設定
+    <ClipContext.Provider value={{ clipState: state, clipDispatch: dispatch }}>
+      <AppNavigator />
+    </ClipContext.Provider>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
